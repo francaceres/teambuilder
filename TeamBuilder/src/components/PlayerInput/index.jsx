@@ -1,34 +1,33 @@
 import { useContext, useState } from "react";
 import { PlayersContext } from "../../contexts/PlayersContext";
 
-const PlayerInput = () => {
-  const [sendButton, setSendButton] = useState(true);
+const PlayerInput = ({ index }) => {
   const [name, setName] = useState("");
   const [skill, setSkill] = useState(1);
-  const { addPlayer } = useContext(PlayersContext);
+  const { changeNameValue, changeSkillValue } = useContext(PlayersContext);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const player = {
-      name: name,
-      skill: skill,
-    };
-    addPlayer(player);
-    setSendButton(false);
+  const handleNameChange = (value) => {
+    setName(value);
+    changeNameValue(index, value);
+  };
+
+  const handleSkillChange = (value) => {
+    setSkill(value);
+    changeSkillValue(index, value);
   };
 
   return (
-    <form className="playerInput" onSubmit={(e) => handleSubmit(e)}>
-      <div>
+    <div className="playerInputDiv">
+      <div className="playerInput">
         <label htmlFor="name">Nombre: </label>
         <input
           id="nameInput"
           type="text"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => handleNameChange(e.target.value)}
         />
       </div>
-      <div>
+      <div className="playerInput">
         <label htmlFor="skillInput">Habilidad: </label>
         <input
           id="skillInput"
@@ -36,15 +35,10 @@ const PlayerInput = () => {
           min="1"
           max="10"
           value={skill}
-          onChange={(e) => setSkill(e.target.value)}
+          onChange={(e) => handleSkillChange(e.target.value)}
         />
       </div>
-      {sendButton ? (
-        <input type="submit" value="Enviar" />
-      ) : (
-        <input type="submit" value="Enviar" disabled />
-      )}
-    </form>
+    </div>
   );
 };
 

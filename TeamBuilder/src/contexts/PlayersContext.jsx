@@ -5,13 +5,18 @@ const PlayersContext = createContext();
 const PlayersProvider = ({ children }) => {
   const [players, setPlayers] = useState([]);
 
-  const addPlayer = (player) => {
-    setPlayers([...players, player]);
-    console.log(players);
+  const changeNameValue = (index, value) => {
+    players[index].name = value;
+  };
+
+  const changeSkillValue = (index, value) => {
+    players[index].skill = value;
   };
 
   return (
-    <PlayersContext.Provider value={{ players, addPlayer }}>
+    <PlayersContext.Provider
+      value={{ players, setPlayers, changeNameValue, changeSkillValue }}
+    >
       {children}
     </PlayersContext.Provider>
   );

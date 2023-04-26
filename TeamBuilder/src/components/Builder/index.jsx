@@ -3,22 +3,25 @@ import PlayerInput from "../PlayerInput";
 import { PlayersContext } from "../../contexts/PlayersContext";
 import Result from "../Result";
 
-const Builder = ({ numberOfPlayers }) => {
+const Builder = () => {
   const { players } = useContext(PlayersContext);
 
-  let divArray = [];
-  for (let i = 0; i < numberOfPlayers; i++) {
-    divArray.push(<PlayerInput key={i} />);
-  }
+  let inputArray = [];
+  players.forEach((element) => {
+    inputArray.push(
+      <PlayerInput
+        key={players.indexOf(element)}
+        index={players.indexOf(element)}
+      />
+    );
+  });
 
   const [displayResult, setDisplayResult] = useState(false);
 
   return (
-    <div>
-      <div>{divArray.map((div) => div)}</div>
-      {players.length == numberOfPlayers && (
-        <button onClick={() => setDisplayResult(true)}>Siguiente</button>
-      )}
+    <div className="builderDiv">
+      <>{inputArray.map((div) => div)}</>
+      <button onClick={() => setDisplayResult(true)}>Siguiente</button>
       {displayResult && <Result players={players} />}
     </div>
   );

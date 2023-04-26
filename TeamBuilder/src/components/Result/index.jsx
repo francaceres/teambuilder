@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const Result = ({ players }) => {
   const sortedPlayers = players.sort((a, b) => b.skill - a.skill);
 
@@ -25,19 +27,38 @@ const Result = ({ players }) => {
     }
   });
 
+  const [viewSkills, setViewSkills] = useState(true);
+
   return (
-    <div>
+    <div className="resultDiv">
       <div>
-        <h2>Team 1</h2>
-        {team1.map((player) => (
-          <div key={player.name}>{player.name + " " + player.skill}</div>
-        ))}
+        <label htmlFor="skillsCheckbox">
+          Mostrar las habilidades de cada jugador
+        </label>
+        <input
+          type="checkbox"
+          id="skillsCheckbox"
+          value={viewSkills}
+          onChange={(e) => setViewSkills(!viewSkills)}
+        />
       </div>
-      <div>
-        <h2>Team 2</h2>
-        {team2.map((player) => (
-          <div key={player.name}>{player.name + " " + player.skill}</div>
-        ))}
+      <div className="resultDiv__Teams">
+        <div>
+          <h2>Equipo 1</h2>
+          {viewSkills
+            ? team1.map((player) => (
+                <div key={player.name}>{player.name + " " + player.skill}</div>
+              ))
+            : team1.map((player) => <div key={player.name}>{player.name}</div>)}
+        </div>
+        <div>
+          <h2>Equipo 2</h2>
+          {viewSkills
+            ? team2.map((player) => (
+                <div key={player.name}>{player.name + " " + player.skill}</div>
+              ))
+            : team2.map((player) => <div key={player.name}>{player.name}</div>)}
+        </div>
       </div>
     </div>
   );
